@@ -1,6 +1,6 @@
 # MAP.md Format
 
-`MAP.md` is the **central artifact** of this skill. It is the learner's *mental model of the field made explicit* — the thing [knowledge-map](../basic_learning_principles/knowledge-map.md) calls model ②. Everything in Phase 1 (Cartography) builds it; everything in Phase 2 (Expedition) pressure-tests and extends it.
+`MAP.md` is the **central artifact** of this skill. It is the learner's *mental model of the field made explicit* — the thing [knowledge-map](basic_learning_principles/knowledge-map.md) calls model ②. Everything in Phase 1 (Cartography) builds it; everything in Phase 2 (Expedition) pressure-tests and extends it.
 
 The guiding belief (from `basic_learning_principles/`): a field becomes learnable once you find its **Basics — one framework of which almost everything else is just an implementation or adaptation.** The map is not a summary of the field; it is the *smallest structure that makes the rest of the field predictable.* Compression is the goal, not coverage.
 

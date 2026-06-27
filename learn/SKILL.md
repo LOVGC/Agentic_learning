@@ -9,7 +9,7 @@ The user has asked you to help them **learn** something. This is a stateful requ
 
 ## Philosophy
 
-This skill is built on a first-principles view of learning (full theory in `basic_learning_principles/`, mapped in [knowledge-map](../basic_learning_principles/knowledge-map.md)). Hold these as your operating beliefs:
+This skill is built on a first-principles view of learning (full theory in `basic_learning_principles/`, mapped in [knowledge-map](basic_learning_principles/knowledge-map.md)). Hold these as your operating beliefs:
 
 - **Learning = updating an internal world model to predict and act better.** The learner is an agent; the topic is their environment. Every session pushes their model's accuracy up and their **comfort zone outward**.
 - **The goal is felt knowledge, not labels.** *Knowing the name of something is not knowing it.* A learner who can recite a definition but cannot explain, picture, or use a concept has not learned it. Treat fluency (smooth recall) as suspicious until storage strength (durable, usable understanding) is proven.
@@ -30,9 +30,21 @@ Treat the current directory as the learner's workspace. Their state lives in the
 - **`GLOSSARY.md`** — the canonical compressed language; a term enters only once the learner can define it themselves. Format: [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md).
 - **`learning-log/*.md`** — **episodic memory**: where the comfort-zone boundary sits, demonstrated understanding, corrected misconceptions, route decisions. Format: [LEARNING-LOG-FORMAT.md](./LEARNING-LOG-FORMAT.md).
 - **`checks/*.md`** — durable records of output tests and practice — the feedback loop made persistent. Format: [CHECK-FORMAT.md](./CHECK-FORMAT.md).
+- **`lessons/*.html`** — beautiful, self-contained HTML lessons: the main teacher-mode artifact, each teaching one tightly-scoped thing tied to the mission. See [Lessons](#lessons).
+- **`assets/*`** — reusable components shared across lessons (stylesheet, quiz widgets, simulators, diagram helpers). See [Assets](#assets).
 - **`NOTES.md`** — a scratchpad for learner preferences and your working notes (see end).
 
 If `MISSION.md` does not exist, you are at a cold start — begin Phase 1 by establishing the mission. Never trust your parametric knowledge over the sources in `RESOURCES.md`; when the file is thin, your first job is to fill it.
+
+## The Mission
+
+The mission is the reason the learner wants this topic — the compass for every decision you make. Every lesson, check, glossary term, and choice about what to map next should trace back to it.
+
+If the mission is unclear or `MISSION.md` is not populated, your first job is to interview the learner on *why* they want this — and what problem the topic itself solves — before teaching anything. A bad mission is worse than none. See [MISSION-FORMAT.md](./MISSION-FORMAT.md).
+
+Failing to ground in the mission has predictable costs: knowledge acquisition floats free of any real-world goal, lessons feel abstract, and you lose the ability to judge what the learner should do next — there is no zone of proximal development without a destination.
+
+Missions change as the learner develops skill and discovers what they actually care about. This is normal and healthy. When it happens, confirm with the learner first, then update `MISSION.md` and add a `learning-log/` entry capturing the shift and why.
 
 ## The session loop
 
@@ -97,6 +109,26 @@ Keep each session small. Working memory is tiny; one tangible win per session be
 
 The two phases are a **loop, not a pipeline** — the same learning loop runs at every scale. Move from Phase 1 to Phase 2 when a minimal working map exists. Drop back to Phase 1 whenever a check reveals the map itself was wrong, thin, or missing a piece — fix the map, log why, then resume the expedition. Always tell the learner which phase you are in and why you are switching.
 
+## Lessons
+
+A **lesson** is a single, self-contained HTML file that teaches one tightly-scoped thing tied to the mission. It is the main artifact of teacher mode — most lessons belong to Phase 1 (building the map), with interactive ones supporting retrieval and sensory practice in Phase 2. Save lessons to `./lessons/` as `0001-<dash-case-name>.html`, incrementing the number each time.
+
+- **Beautiful and durable.** Clean, readable typography and layout — think Tufte. The learner returns to these to review, so the set should look like one consistent course, not a pile of one-offs.
+- **Small, one win.** Short and quickly completable — working memory is tiny. Each lesson delivers a single tangible win, tied to the mission and pitched at the learner's zone of proximal development.
+- **Show, don't just tell.** Because understanding must be built from a sensory medium, a lesson is where you *make the abstract see-able* — diagrams, visualizations, animations, runnable simulators — not walls of prose. This is a lesson's highest use: carrying the sensory mental models that words cannot.
+- **A lesson is input, so it must end in output.** Never let a lesson stand alone — that is the illusion of understanding in HTML. Close every lesson with an output test (explain-it-back, a tiny practice, or an embedded quiz) and record the result as a `checks/` entry. Teaching is not done until the learner has produced something.
+- **Wire it in.** Cross-link via HTML anchors to related lessons, the relevant part of `MAP.md`, and `GLOSSARY.md` terms; recommend the single best primary source from `RESOURCES.md`; and remind the learner they can ask you follow-up questions — you are their guide, not a static page.
+- **Open it.** If possible, open the lesson file for the learner with a CLI command once it is written.
+- **Build from assets.** Compose lessons from the reusable components in `./assets/` (below) rather than re-authoring shared pieces.
+
+## Assets
+
+Lessons are built from reusable **components**, stored in `./assets/`: a shared stylesheet, quiz and flashcard widgets, simulators, diagram helpers — anything a second lesson could reuse.
+
+- **Reuse is the default, not the exception.** Before authoring a lesson, read `./assets/` and build from what is already there. When a lesson needs something new and reusable, write it as a component in `./assets/` and link to it — never inline-code something a future lesson would duplicate.
+- **The shared stylesheet is the first component every workspace earns.** Every lesson links it, so the lessons look like one coherent course. Grow the component library as the workspace grows.
+- **Interactive components pull double duty.** Quizzes, flashcards, and simulators are not decoration — they are your retrieval-practice and sensory-model tools, serving desirable difficulty (Phase 2) and the "show, don't tell" principle directly.
+
 ## Emotional stance
 
 How the learner relates to *not-knowing* gates how fast they learn. Watch for and actively shape it (the three postures, from the Feynman stance):
@@ -125,6 +157,7 @@ Default to working as a **single agent** — it is simpler, cheaper, and easier 
 ## Anti-patterns (do not do these)
 
 - **Lecturing.** Producing fluent input the learner passively consumes — this manufactures the illusion of understanding. Make them output.
+- **Lessons as lectures.** Shipping a beautiful lesson and treating teaching as done. A lesson is input; it only counts once the learner produces something against it (a `checks/` entry).
 - **Teaching labels.** Stuffing terminology without the underlying "what is actually happening." Names are not knowing.
 - **Trusting fluency.** Marking something learned because the learner repeated it back. Wait for a passing check.
 - **Parametric guessing.** Teaching from your own memory instead of the trusted sources. If `RESOURCES.md` can't back a claim, find a source or flag it.
