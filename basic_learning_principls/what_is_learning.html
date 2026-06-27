@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is Learning · 从第一性原理出发</title>
+<style>
+  :root{
+    --paper:#efe6d1;
+    --paper-2:#f6efdd;
+    --paper-3:#faf5e8;
+    --ink:#2b2620;
+    --ink-soft:#5d5447;
+    --ink-faint:#8a8170;
+    --ochre:#b5651d;
+    --ochre-soft:#cf8a44;
+    --ochre-wash:#f3e3cd;
+    --green:#3f6b4f;
+    --green-soft:#6c9a7c;
+    --green-wash:#e3ecdf;
+    --line:rgba(43,38,32,.16);
+    --rule:rgba(181,101,29,.28);
+    --shadow:rgba(60,45,25,.18);
+    --serif:Georgia,"Times New Roman","Songti SC","Noto Serif SC","Source Han Serif SC",STSong,SimSun,serif;
+    --label:"Trebuchet MS","Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{
+    margin:0;
+    overflow-x:hidden;
+    font-family:var(--serif);
+    color:var(--ink);
+    line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(255,250,235,.55), transparent 45%),
+      radial-gradient(circle at 85% 8%, rgba(207,138,68,.10), transparent 40%),
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(43,38,32,.045) 31px, rgba(43,38,32,.045) 32px);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:64px 28px 110px;}
+
+  /* ---------- hero ---------- */
+  .kicker{
+    font-family:var(--label);
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--ochre);
+    margin:0 0 18px;
+    padding-left:.42em;
+  }
+  h1{
+    font-size:clamp(40px,7vw,68px);
+    line-height:1.04;
+    margin:0 0 14px;
+    font-weight:700;
+    letter-spacing:-.5px;
+  }
+  h1 .em{color:var(--ochre);font-style:italic;}
+  .subtitle{
+    font-family:var(--label);
+    font-size:14px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 30px;
+  }
+  .lede{
+    font-size:19px;
+    color:var(--ink-soft);
+    border-left:3px solid var(--ochre);
+    padding:4px 0 4px 22px;
+    margin:0 0 8px;
+    max-width:46em;
+  }
+  .lede b{color:var(--ink);font-weight:600;}
+
+  /* ---------- section heads ---------- */
+  .sec-head{
+    display:flex;align-items:baseline;gap:16px;
+    margin:78px 0 26px;
+  }
+  .sec-head .no{
+    font-family:var(--label);
+    font-size:13px;letter-spacing:.2em;
+    color:var(--ochre);
+    border:1.5px solid var(--ochre);
+    border-radius:50%;
+    width:34px;height:34px;flex:0 0 34px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .sec-head h2{
+    font-size:27px;margin:0;font-weight:700;letter-spacing:-.2px;
+  }
+  .sec-head h2 small{
+    display:block;font-family:var(--label);font-size:12px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);
+    font-weight:400;margin-top:3px;
+  }
+
+  /* ---------- the diagram ---------- */
+  .diagram-frame{
+    width:min(1380px,93vw);
+    margin-left:50%;
+    transform:translateX(-50%);
+    background:var(--paper-3);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:30px 26px 34px;
+    box-shadow:0 18px 40px -28px var(--shadow);
+    position:relative;
+  }
+  .diagram-frame::before{
+    content:"FIG. 1 — AGENT · ENVIRONMENT · TWO MODELS";
+    position:absolute;top:14px;right:20px;
+    font-family:var(--label);font-size:10.5px;letter-spacing:.24em;
+    color:var(--ink-faint);
+  }
+  svg.diagram{display:block;width:100%;height:auto;}
+
+  /* svg text styles */
+  .svg-zone-label{font-family:var(--label);font-size:13px;letter-spacing:.16em;text-transform:uppercase;fill:var(--ink-faint);font-weight:700;}
+  .stage-en{font-family:var(--label);font-size:12.5px;letter-spacing:.06em;font-weight:700;}
+  .stage-zh{font-family:var(--serif);font-size:16px;}
+  .stage-sub{font-family:var(--label);font-size:9.5px;letter-spacing:.04em;fill:var(--ink-faint);}
+  .flow-label{font-family:var(--label);font-size:11px;letter-spacing:.04em;fill:var(--ink-soft);font-weight:600;}
+  .flow-label-zh{font-family:var(--serif);font-size:12.5px;fill:var(--ink-soft);}
+  .node-label{font-family:var(--label);font-size:10.5px;letter-spacing:.03em;font-weight:700;}
+  .node-sub{font-family:var(--serif);font-size:11px;fill:var(--ink-faint);}
+  .pipe-caption{font-family:var(--serif);font-size:12.5px;fill:var(--ink-soft);font-style:italic;}
+  .box-sig{font-family:var(--label);font-size:11.5px;font-weight:700;letter-spacing:.01em;fill:var(--ink);}
+  .box-cap{font-family:var(--serif);font-style:italic;font-size:11.5px;fill:var(--ink-faint);}
+  .arrow-cap{font-family:var(--label);font-size:10px;letter-spacing:.05em;fill:var(--ink-faint);font-weight:600;}
+  .badge-num{font-family:var(--label);font-size:13px;font-weight:700;fill:#fff;}
+
+  .flow{stroke-dasharray:8 7;animation:dashmove 1.05s linear infinite;}
+  .flow.rev{animation-direction:reverse;}
+  @keyframes dashmove{to{stroke-dashoffset:-30;}}
+  .dot{animation:flowdot 1.7s linear infinite;}
+  @keyframes flowdot{
+    0%{transform:translateX(0);opacity:0;}
+    12%{opacity:1;}
+    88%{opacity:1;}
+    100%{transform:translateX(76px);opacity:0;}
+  }
+
+  /* legend under diagram */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;
+    margin-top:18px;font-family:var(--label);font-size:12px;color:var(--ink-soft);
+  }
+  .legend span{display:inline-flex;align-items:center;gap:7px;}
+  .swatch{width:22px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block;}
+
+  /* ---------- insight cards ---------- */
+  .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;}
+  .card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 20px 24px;
+    position:relative;
+    box-shadow:0 14px 30px -26px var(--shadow);
+  }
+  .card .tag{
+    position:absolute;top:-13px;left:18px;
+    width:28px;height:28px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--label);font-weight:700;font-size:14px;color:#fff;
+  }
+  .card.c1 .tag{background:var(--green);}
+  .card.c2 .tag{background:var(--ochre);}
+  .card.c3 .tag{background:var(--ink);}
+  .card h3{margin:8px 0 9px;font-size:18px;letter-spacing:-.2px;}
+  .card p{margin:0;font-size:14.5px;color:var(--ink-soft);line-height:1.7;}
+  .card p b{color:var(--ink);}
+
+  /* ---------- steps ---------- */
+  .step{
+    display:grid;grid-template-columns:62px 1fr;gap:22px;
+    padding:26px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .step:last-child{border-bottom:none;}
+  .step .idx{
+    font-family:var(--serif);font-style:italic;
+    font-size:42px;line-height:1;color:var(--ochre-soft);
+    text-align:right;
+  }
+  .step h3{margin:2px 0 8px;font-size:21px;letter-spacing:-.2px;}
+  .step h3 small{font-family:var(--label);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);font-weight:400;margin-left:8px;}
+  .step p{margin:0;font-size:16px;color:var(--ink-soft);}
+  .step p .k{color:var(--ochre);font-weight:600;font-style:italic;}
+  .step p .g{color:var(--green);font-weight:600;}
+  .step .ex{
+    display:block;margin-top:10px;font-size:14px;color:var(--ink-faint);
+    border-left:2px solid var(--rule);padding-left:14px;
+  }
+
+  /* ---------- chain ---------- */
+  .chain-wrap{
+    background:var(--green-wash);
+    border:1px solid rgba(63,107,79,.25);
+    border-radius:16px;padding:26px 22px;margin-top:14px;
+    text-align:center;
+  }
+  .chain{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 12px;}
+  .chain .node{
+    font-family:var(--label);font-size:14px;font-weight:700;
+    background:var(--paper-3);border:1px solid rgba(63,107,79,.3);
+    color:var(--green);border-radius:30px;padding:9px 16px;
+    white-space:nowrap;
+  }
+  .chain .node.end{background:var(--green);color:#faf5e8;border-color:var(--green);}
+  .chain .arr{color:var(--green-soft);font-size:18px;font-weight:700;}
+  .chain-sub{font-family:var(--serif);font-style:italic;color:var(--ink-soft);margin:16px 0 0;font-size:14.5px;}
+
+  /* ---------- definition ---------- */
+  .definition{
+    background:var(--ochre-wash);
+    border:1px solid rgba(181,101,29,.3);
+    border-radius:16px;
+    padding:34px 32px;margin-top:14px;
+    position:relative;
+  }
+  .definition::before{
+    content:"\201C";
+    position:absolute;top:6px;left:18px;
+    font-family:var(--serif);font-size:90px;color:rgba(181,101,29,.28);line-height:1;
+  }
+  .definition p{
+    margin:0;font-size:21px;line-height:1.7;color:var(--ink);
+    padding-left:34px;
+  }
+  .definition p b{color:var(--ochre);font-weight:700;}
+  .facets{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;padding-left:34px;}
+  .facet{
+    font-family:var(--label);font-size:12.5px;
+    background:var(--paper-3);border:1px solid rgba(181,101,29,.3);
+    border-radius:8px;padding:7px 13px;color:var(--ink-soft);
+  }
+  .facet b{color:var(--ochre);}
+
+  /* ---------- open question ---------- */
+  .openq{
+    margin-top:14px;text-align:center;padding:40px 28px;
+    border:2px dashed var(--rule);border-radius:18px;
+  }
+  .openq .q-kicker{font-family:var(--label);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--ochre);margin:0 0 16px;}
+  .openq p.big{font-size:23px;line-height:1.6;margin:0 auto 14px;max-width:30em;font-style:italic;}
+  .openq p.small{font-size:15px;color:var(--ink-soft);margin:0 auto;max-width:34em;}
+  .openq p.small b{color:var(--ink);}
+
+  /* ---------- my insights ---------- */
+  .myinsights{margin-top:6px;}
+  .mi{display:grid;grid-template-columns:54px 1fr;gap:22px;padding:30px 0;border-bottom:1px dashed var(--line);}
+  .mi:last-child{border-bottom:none;}
+  .mi .mi-no{font-family:var(--serif);font-style:italic;font-size:40px;line-height:1;color:var(--ochre-soft);text-align:right;}
+  .mi h3{margin:2px 0 12px;font-size:22px;letter-spacing:-.2px;}
+  .mi p{margin:0 0 10px;font-size:16.5px;color:var(--ink-soft);max-width:56em;}
+  .mi p:last-child{margin-bottom:0;}
+  .mi b{color:var(--ink);font-weight:600;}
+  .mi .accent{color:var(--ochre);font-style:italic;}
+  .ref{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--ochre);color:#fff;font-family:var(--label);font-size:12px;font-weight:700;line-height:1;}
+  .synth{margin-top:14px;max-width:640px;background:var(--green-wash);border:1px solid rgba(63,107,79,.3);border-radius:12px;padding:13px 16px;font-family:var(--serif);font-size:15.5px;color:var(--green);}
+  .synth b{color:var(--green);}
+  .scales{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;}
+  .scale{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:15px 14px 16px;}
+  .scale svg{width:26px;height:26px;stroke:var(--ochre);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block;margin-bottom:10px;}
+  .scale .s-t{font-family:var(--label);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ochre);margin-bottom:5px;}
+  .scale .s-d{font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+  .levels{margin:6px 0 0;padding:0;list-style:none;}
+  .levels li{position:relative;padding-left:24px;margin-bottom:9px;font-size:16.5px;color:var(--ink-soft);}
+  .levels li::before{content:"";position:absolute;left:3px;top:11px;width:9px;height:9px;border-radius:50%;background:var(--green-soft);}
+  .key-insight{margin-top:18px;max-width:780px;background:var(--ochre-wash);border:1px solid rgba(181,101,29,.32);border-radius:14px;padding:22px 24px;}
+  .key-insight .ki-label{font-family:var(--label);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ochre);margin:0 0 10px;}
+  .key-insight p{margin:0;font-size:18.5px;line-height:1.65;color:var(--ink);font-style:italic;}
+  .key-insight b{color:var(--ochre);font-style:normal;font-weight:700;}
+  .eqchain{display:inline-block;margin:4px 0 14px;padding:11px 17px;background:var(--ochre-wash);border-radius:10px;font-family:var(--label);font-weight:700;font-size:15px;color:var(--ochre);letter-spacing:.01em;line-height:1.5;}
+  .closing-note{margin-top:34px;text-align:center;background:var(--green-wash);border:1px solid rgba(63,107,79,.3);border-radius:16px;padding:34px 28px;}
+  .closing-note svg{width:30px;height:30px;stroke:var(--green);fill:none;stroke-width:1.6;stroke-linejoin:round;margin-bottom:6px;}
+  .closing-note p{margin:0;font-family:var(--serif);font-size:23px;color:var(--green);font-style:italic;line-height:1.55;}
+  .closing-note b{font-style:normal;font-weight:700;}
+  .closing-note .cn-en{font-family:var(--label);font-style:normal;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green-soft);margin-top:12px;}
+
+  footer{margin-top:80px;text-align:center;font-family:var(--label);font-size:12px;letter-spacing:.12em;color:var(--ink-faint);}
+  footer .sep{margin:0 10px;color:var(--rule);}
+
+  /* reveal */
+  body.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease;}
+  body.js .reveal.in{opacity:1;transform:none;}
+
+  /* responsive */
+  @media (max-width:680px){
+    .wrap{padding:48px 18px 80px;}
+    .insights{grid-template-columns:1fr;gap:26px;margin-top:40px;}
+    .step{grid-template-columns:40px 1fr;gap:14px;}
+    .step .idx{font-size:30px;}
+    .mi{grid-template-columns:34px 1fr;gap:14px;}
+    .mi .mi-no{font-size:28px;}
+    .scales{grid-template-columns:1fr 1fr;}
+    .definition p,.facets{padding-left:8px;}
+    .diagram-frame{width:auto;margin-left:0;transform:none;padding:20px 14px 22px;}
+    .diagram-frame::before{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .flow{animation:none;}
+    .dot{display:none;}
+    body.js .reveal{opacity:1;transform:none;transition:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===================== HERO ===================== -->
+  <header>
+    <p class="kicker">First Principles · 第一性原理</p>
+    <h1>What is <span class="em">Learning</span>?</h1>
+    <p class="subtitle">把教育学 / 心理学 / 神经科学的定义放下，只留下最不可再分的东西</p>
+    <p class="lede">
+      <b>Learning</b> 是一个有限资源的<b>智能体</b>，通过<b>经验</b>持续更新其<b>内部世界模型</b>，
+      从环境数据中提取可泛化的规律，以提升对未来的<b>预测能力</b>，从而做出更优<b>决策</b>、提高适应能力的过程。
+    </p>
+  </header>
+
+  <!-- ===================== FIG. 1 ===================== -->
+  <div class="sec-head reveal">
+    <span class="no">図</span>
+    <h2>一张图，看懂 Learning 的本质<small>Agent ⇄ Env · 一个学习器 + 一个心智模型 (world model)</small></h2>
+  </div>
+
+  <div class="diagram-frame">
+    <svg class="diagram" viewBox="0 0 980 620" role="img" aria-labelledby="figtitle figdesc">
+      <title id="figtitle">学习的本质：智能体内部的两个模型与环境的交互</title>
+      <desc id="figdesc">像强化学习一样，智能体(Agent)与环境(Environment)交互：智能体发出行动(action)，环境返回状态与奖励(state, reward)。
+        智能体内部有两个模型：压缩/抽象模型(学习器)把环境给的经验数据压缩成一个心智模型；
+        心智模型(internal model)输入(状态, 行动)、预测环境的(下一状态, 奖励)，是对环境的内部近似。</desc>
+
+      <defs>
+        <marker id="aGreen" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--green)"/>
+        </marker>
+        <marker id="aOchre" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--ochre)"/>
+        </marker>
+        <marker id="aInk" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--ink)"/>
+        </marker>
+      </defs>
+
+      <!-- ============ ENVIRONMENT box ============ -->
+      <rect x="730" y="212" width="226" height="196" rx="20"
+            fill="rgba(108,154,124,.10)" stroke="var(--green)" stroke-width="1.8"/>
+      <text class="stage-en" x="843" y="248" text-anchor="middle" fill="var(--green)">ENVIRONMENT</text>
+      <text class="stage-zh" x="843" y="270" text-anchor="middle">环境 · 世界</text>
+      <g transform="translate(843,306)" fill="none" stroke="var(--green)" stroke-width="1.7">
+        <circle r="15"/>
+        <ellipse rx="6.5" ry="15"/>
+        <line x1="-15" y1="0" x2="15" y2="0"/>
+        <line x1="-12" y1="-8" x2="12" y2="-8"/>
+        <line x1="-12" y1="8" x2="12" y2="8"/>
+      </g>
+      <text class="box-cap" x="843" y="348" text-anchor="middle">真实动态 · true dynamics</text>
+      <text class="box-sig" x="843" y="370" text-anchor="middle" fill="var(--green)">(s, a) → (s′, r)</text>
+
+      <!-- ============ AGENT box ============ -->
+      <rect x="24" y="64" width="596" height="512" rx="22"
+            fill="var(--paper-2)" stroke="var(--ochre)" stroke-width="1.8"/>
+      <text class="svg-zone-label" x="44" y="96" fill="var(--ochre)">AGENT · 智能体</text>
+      <text class="stage-sub" x="44" y="116">内部有两个模型 · two models inside</text>
+
+      <!-- ===== interaction: ACTION  (agent → env, over the top) ===== -->
+      <path class="flow" d="M430,250 C430,184 430,172 466,172 L806,172 C843,172 843,186 843,210"
+            fill="none" stroke="var(--ochre)" stroke-width="2.2" marker-end="url(#aOchre)"/>
+      <text class="flow-label" x="650" y="150" text-anchor="middle" fill="var(--ochre)">ACTION  a · 行动</text>
+      <text class="arrow-cap" x="650" y="166" text-anchor="middle">由 ② 的预测来决策</text>
+
+      <!-- ===== interaction: STATE / REWARD  (env → learner, under the bottom) ===== -->
+      <path class="flow" d="M843,410 C843,474 843,512 806,512 L478,512"
+            fill="none" stroke="var(--green)" stroke-width="2.2" marker-end="url(#aGreen)"/>
+      <text class="flow-label" x="652" y="502" text-anchor="middle" fill="var(--green)">STATE s′ · REWARD r</text>
+      <text class="arrow-cap" x="652" y="484" text-anchor="middle">环境反馈 → 累积成 experience 经验</text>
+
+      <!-- ===== MENTAL MODEL — Model ② (upper, emphasis) ===== -->
+      <rect x="80" y="250" width="396" height="120" rx="14" fill="#fff" stroke="var(--ochre)" stroke-width="2.2"/>
+      <g transform="translate(116,306)" fill="none" stroke="var(--ochre)" stroke-width="1.7">
+        <path d="M0,-18 C-11,-18 -17,-9 -13,-2 C-18,3 -13,13 -5,12 C-2,18 8,18 10,11 C18,9 18,-3 11,-6 C12,-15 4,-19 0,-13 Z"/>
+        <line x1="0" y1="-13" x2="0" y2="12"/>
+        <line x1="-13" y1="-2" x2="11" y2="-6"/>
+      </g>
+      <text class="stage-en" x="150" y="282" fill="var(--ochre)">MENTAL MODEL</text>
+      <text class="stage-zh" x="150" y="304">心智模型 · internal model</text>
+      <text class="box-sig" x="150" y="328" fill="var(--ochre)">输入 (state, action) → 预测 (next state, reward)</text>
+      <text class="box-cap" x="150" y="350">习得的世界模型 · 用它处理该领域的问题</text>
+
+      <!-- ===== COMPRESSION / ABSTRACTION — Model ① (lower, the learner) ===== -->
+      <rect x="80" y="440" width="396" height="120" rx="14" fill="var(--paper-3)" stroke="var(--line)" stroke-width="1.6"/>
+      <path d="M100,484 L150,484 L130,510 L130,528 L120,533 L120,510 Z"
+            fill="none" stroke="var(--ochre)" stroke-width="2" stroke-linejoin="round"/>
+      <text class="stage-en" x="170" y="472" fill="var(--ochre)">COMPRESSION · ABSTRACTION</text>
+      <text class="stage-zh" x="170" y="494">压缩 · 抽象（学习器）</text>
+      <text class="box-sig" x="170" y="518" fill="var(--ink)">输入 经验数据 → 输出 心智模型</text>
+      <text class="box-cap" x="170" y="540">用环境给的资料，学习 / 压缩出一个模型</text>
+
+      <!-- ===== builds arrow: Model ① → Model ② ===== -->
+      <path class="flow" d="M170,440 L170,374" fill="none" stroke="var(--ink)" stroke-width="2" marker-end="url(#aInk)"/>
+      <text class="arrow-cap" x="186" y="402">构建 · 更新 ②</text>
+      <text class="arrow-cap" x="186" y="416">（输出一个模型）</text>
+
+      <!-- ===== mirror: Mental Model ≈ Environment ===== -->
+      <path class="flow rev" d="M586,310 L480,310" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#aInk)"/>
+      <path class="flow" d="M620,310 L726,310" fill="none" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#aInk)"/>
+      <text x="603" y="319" text-anchor="middle" fill="var(--ink)" style="font-family:var(--serif);font-size:24px;font-weight:700;">≈</text>
+      <text class="arrow-cap" x="603" y="289" text-anchor="middle">心智模型 ≈ 环境</text>
+      <text class="arrow-cap" x="603" y="341" text-anchor="middle">内部副本 · mirrors</text>
+
+      <!-- ===== numbered badges (the two models) ===== -->
+      <g><circle cx="80" cy="440" r="14" fill="var(--ochre)"/><text class="badge-num" x="80" y="445" text-anchor="middle">1</text></g>
+      <g><circle cx="80" cy="250" r="14" fill="var(--ochre)"/><text class="badge-num" x="80" y="255" text-anchor="middle">2</text></g>
+    </svg>
+
+    <div class="legend">
+      <span><i class="swatch" style="border-color:var(--green)"></i>Agent ⇄ Env 交互：action / state · reward</span>
+      <span><i class="swatch" style="border-color:var(--ochre)"></i>两个模型：① 学习器 + ② 心智模型</span>
+      <span><i class="swatch" style="border-color:var(--ink)"></i>① 构建 ② · ② ≈ 环境（预测 s′, r）</span>
+    </div>
+  </div>
+
+  <!-- ===================== 3 INSIGHTS ===================== -->
+  <div class="insights">
+    <div class="card c1 reveal">
+      <span class="tag">1</span>
+      <h3>像 RL：Agent ⇄ Env</h3>
+      <p>学习发生在<b>智能体与环境的交互</b>里：agent 发出 <b>action</b>，env 返回 <b>(state, reward)</b>。
+        这串经验，就是喂给学习器的原料——<b>没有交互，就没有可学的数据。</b></p>
+    </div>
+    <div class="card c2 reveal">
+      <span class="tag">2</span>
+      <h3>Agent 内部有两个模型</h3>
+      <p><b>① 压缩 / 抽象模型</b>是「学习器」：吃进环境的资料，<b>压缩出一个 mental model</b>；
+        <b>② mental model</b> 是「被学到的东西」。<b>一个负责学，一个负责用。</b></p>
+    </div>
+    <div class="card c3 reveal">
+      <span class="tag">3</span>
+      <h3>心智模型 ≈ 环境的副本</h3>
+      <p>② 输入 <b>(state, action)</b>、输出对环境的预测 <b>(next state, reward)</b>——它就是 env 的<b>内部仿真</b>。
+        学习，就是让它的预测越来越<b>贴近真实环境</b>。</p>
+    </div>
+  </div>
+
+  <!-- ===================== MY INSIGHTS ===================== -->
+  <div class="sec-head reveal">
+    <span class="no">见</span>
+    <h2>我的洞见<small>four reflections on the loop</small></h2>
+  </div>
+
+  <div class="myinsights">
+
+    <!-- insight 1 -->
+    <div class="mi reveal">
+      <div class="mi-no">1</div>
+      <div>
+        <h3>同一个 loop，发生在所有尺度上</h3>
+        <p>这张 agent–env 图并不只描述某一个层面——<b>换一个 agent、换一段时间，它在所有尺度上反复上演</b>：</p>
+        <div class="scales">
+          <div class="scale">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.6"/><path d="M5.5 20 a6.5 6.5 0 0 1 13 0"/></svg>
+            <div class="s-t">个人 · Personal</div>
+            <div class="s-d">agent 是一个人</div>
+          </div>
+          <div class="scale">
+            <svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="2.9"/><circle cx="16" cy="8.6" r="2.5"/><path d="M3 19 a5.5 5.5 0 0 1 11 0"/><path d="M14 19 a5 5 0 0 1 7 -4"/></svg>
+            <div class="s-t">群体 · Collective</div>
+            <div class="s-d">agent 是一群人，比如一个国家</div>
+          </div>
+          <div class="scale">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"/></svg>
+            <div class="s-t">短时间 · Short</div>
+            <div class="s-d">一个 agent 的一天、一生</div>
+          </div>
+          <div class="scale">
+            <svg viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7.5 3.5v3l4.5 4.5 4.5-4.5v-3M7.5 20.5v-3l4.5-4.5 4.5 4.5v3"/></svg>
+            <div class="s-t">长时间 · Long</div>
+            <div class="s-d">整个人类的进化史</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- insight 2 -->
+    <div class="mi reveal">
+      <div class="mi-no">2</div>
+      <div>
+        <h3>我说的「mental model」，其实是<span class="accent">学习的能力</span></h3>
+        <p>我以前一直强调的 <b>mental model</b>，对应的其实是图里的 <span class="ref">1</span> <b>压缩 / 抽象模型</b>——
+          它代表一个 agent <b>学习新东西的能力</b>。</p>
+        <p class="eqchain">mental model　=　compressed knowledge　=　abstractions　=　basic framework</p>
+        <p>所以学一个领域，关键是<b>先找到它的 Basics</b>——一个<b>基本框架 (framework)</b>，让这个领域里其它几乎所有东西，
+          都只是它的一个<b>实现或变体</b>（an implementation or adaptation of this framework）。</p>
+      </div>
+    </div>
+
+    <!-- insight 3 -->
+    <div class="mi reveal">
+      <div class="mi-no">3</div>
+      <div>
+        <h3>已经建好的 mental model = 经验 = 舒适区</h3>
+        <p>而一个 agent 此刻<b>已经拥有</b>的 <span class="ref">2</span> <b>心智模型</b>，代表它<b>已有的经验</b>——
+          也就是这个 agent 的<b>舒适区</b>。</p>
+        <p class="synth">于是：<b>学习 = 用 ①（学习的能力）不断把 ②（舒适区）往外推。</b></p>
+      </div>
+    </div>
+
+    <!-- insight 4 -->
+    <div class="mi reveal">
+      <div class="mi-no">4</div>
+      <div>
+        <h3>Learning 的本质，有很多层</h3>
+        <ul class="levels">
+          <li>在<b>最底层</b>：learning 是<b>生命适应环境的一种机制</b>。</li>
+          <li>在<b>另一层</b>：learning 本身就<b>很有趣、好玩</b>。</li>
+        </ul>
+        <div class="key-insight">
+          <p class="ki-label">Key insight · 关键</p>
+          <p>但无论如何，learning 就是<b>这张图所描述的一切</b>。不同的人会用不同的词来描述这张图——
+            可本质上，似乎都是<b>同一个意思</b>。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===================== CLOSING NOTE ===================== -->
+  <div class="closing-note reveal">
+    <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+    <p>当你忘了怎么学习的时候，<b>就回来看看这张图。</b></p>
+    <p class="cn-en">When you forget how to learn, come back to this diagram.</p>
+  </div>
+
+  <footer>
+    WHAT IS LEARNING <span class="sep">·</span> FROM FIRST PRINCIPLES <span class="sep">·</span> 一张图看懂学习的本质
+  </footer>
+
+</div>
+
+<script>
+  // progressive enhancement only — content is fully visible without JS
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce || !('IntersectionObserver' in window)) return;
+    document.body.classList.add('js');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>
