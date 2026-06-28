@@ -1,6 +1,8 @@
 # MAP.md Format
 
-`MAP.md` is the **central artifact** of this skill. It is the learner's *mental model of the field made explicit* — the thing [knowledge-map](basic_learning_principles/knowledge-map.md) calls model ②. Everything in Phase 1 (Cartography) builds it; everything in Phase 2 (Expedition) pressure-tests and extends it.
+`MAP.md` is the **central artifact** of this skill. It is the learner's *mental model of the field made explicit* — the thing [knowledge-map](basic_learning_principles/knowledge-map.md) calls model ②. Everything in Phase 1 (Cartography) builds it; everything in Phase 3 (Expedition) pressure-tests and extends it.
+
+**Map vs syllabus — territory vs route.** The map is the **territory**: the compressed framework, "how to think about this field." A complex topic also gets a `SYLLABUS.md` (format: [SYLLABUS-FORMAT.md](./SYLLABUS-FORMAT.md)) — the **route**, an ordered sequence of teachable units *through* this territory. They are complementary: the map says how to think; the syllabus says in what order to walk. For a complex topic the map is built **high-level first** (enough to plan the route) and then **deepened unit by unit** as the syllabus is walked — so "minimal working map first" is doubly true at the start of a large topic.
 
 The guiding belief (from `basic_learning_principles/`): a field becomes learnable once you find its **Basics — one framework of which almost everything else is just an implementation or adaptation.** The map is not a summary of the field; it is the *smallest structure that makes the rest of the field predictable.* Compression is the goal, not coverage.
 
