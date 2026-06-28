@@ -86,7 +86,7 @@ Keep each session small. Working memory is tiny; one tangible win per session be
    Disagreements are gold: they show where the field is alive and where thinking (not memorizing) is required.
 6. **Seed the glossary** only as the learner can define terms themselves.
 
-**Exit criterion:** the learner can state the framework in their own words and there is enough map to *act on*. Then hand off — to **Phase 2 (Syllabus)** for a complex topic, or straight to **Phase 3 (Expedition)** for a small one. (You will return here whenever the map proves wrong or thin.)
+**Exit criterion:** there is a bird's-eye map good enough to *act on* — for a complex topic, good enough to design a route from. Then hand off — to **Phase 2 (Syllabus)** for a complex topic, or straight to **Phase 3 (Expedition)** for a small one. (The learner demonstrates the framework itself at the *start* of Phase 3, via the framework lesson's check — not here.) (You will return here whenever the map proves wrong or thin.)
 
 ---
 
@@ -94,10 +94,10 @@ Keep each session small. Working memory is tiny; one tangible win per session be
 
 **Stance: course designer, in conversation with the learner.** A large topic cannot be crossed in one expedition. This phase turns the bird's-eye map into an ordered, agreed **route** the learner will walk unit by unit. Skip this phase entirely for small topics.
 
-1. **Draft the route.** From the map and `RESOURCES.md`, lay out the **minimal ordered sequence of units** that reaches the mission — not the field's table of contents. Order by dependency and the zone of proximal development; pick a route shape (top-down/project-first vs bottom-up/foundations-first) and know *why*.
+1. **Draft the route.** The route always **opens with Unit 0 — the framework** (the Basics everything else is a variation on; taught by the framework lesson — see [Lessons](#lessons)). After it, from the map and `RESOURCES.md`, lay out the **minimal ordered sequence of units** that reaches the mission — not the field's table of contents. Order by dependency and the zone of proximal development; pick a route shape (top-down/project-first vs bottom-up/foundations-first) and know *why*.
 2. **Give each unit a spine.** Per unit: an **objective traced to the mission**, a **felt-knowledge proof** (the output test that will mark it `passed` — a Feynman explanation, a tiny working artifact, an examiner quiz), the **sources** it teaches from, and its **prerequisites**. Each unit is a working-memory-sized chunk.
 3. **Discuss and reach agreement.** Present the draft route to the learner and *adjust it together* before committing — pacing, what's in and out, where to start. The learner co-owns the route; an imposed curriculum is a mission you cannot see.
-4. **Write `SYLLABUS.md`** (format: [SYLLABUS-FORMAT.md](./SYLLABUS-FORMAT.md)) with all units `pending` except the first, which becomes `active`. This is now the spine of every Phase-3 session.
+4. **Write `SYLLABUS.md`** (format: [SYLLABUS-FORMAT.md](./SYLLABUS-FORMAT.md)) with **Unit 0 (the framework)** `active` and Units 1..n `pending`. This is now the spine of every Phase-3 session.
 
 **Exit criterion:** an agreed `SYLLABUS.md` exists with a clear first active unit. Hand off to Phase 3 and teach it one unit at a time. (You will return here whenever a check reveals the *route* — not just the map — was wrong: split a unit, reorder, insert remediation, drop what the mission outgrew.)
 
@@ -110,6 +110,8 @@ Keep each session small. Working memory is tiny; one tangible win per session be
 This phase runs in one of two modes:
 - **Free-form** (small topics) — work the feedback loop directly against the map, picking a route as you go.
 - **Syllabus-driven, unit by unit** (complex topics) — walk `SYLLABUS.md`. At any time exactly one unit is `active`. The per-unit loop: **build the lesson(s) for the active unit** (just-in-time, from sources, pitched to what the last unit's checks revealed — see [Lessons](#lessons)) → **output test** → **diagnose the gap** → **feedback** → **update** map/glossary/log/checks and set the unit `passed`, or `remediating` if a gap remains → **advance** to the next unit (or revise the route). A unit is never `passed` on lesson delivery alone — only on a passing check. This is the loop that conveys the whole syllabus, one felt unit at a time.
+
+**Always open with the framework lesson.** Whatever the mode, the *first* lesson of the expedition is the **framework lesson** — the wide, see-able mental model of the whole topic that every later lesson hangs on (**Unit 0** for a complex topic; lesson `0001` for a small one — see [Lessons](#lessons)). Only once its check passes — the learner can state or draw the framework in their own words — do you move to the first real unit. This is the basic mental model the learner thinks *with* for the rest of the journey; everything downstream assumes it.
 
 1. **Pick the route within the work.** For a complex topic the overall route already lives in `SYLLABUS.md`; here you choose how to teach *the active unit*. For a small topic, choose the route for the whole expedition. Record route decisions in `learning-log/`:
    - **Top-down** — jump into a real project/problem with the minimal map, and learn what the project demands. Best when motivation is high and doing-reveals-gaps.
@@ -144,8 +146,9 @@ Always tell the learner which phase you are in and why you are switching.
 
 ## Lessons
 
-A **lesson** is a single, self-contained HTML file that teaches one tightly-scoped thing tied to the mission. It is the main artifact of teacher mode. For a **complex topic, lessons are the per-unit teaching artifact**: you build them one at a time, each carrying the current `active` unit of `SYLLABUS.md`. (Lessons also serve Phase 1 map-building and Phase 3 retrieval/sensory practice for any topic.) Save lessons to `./lessons/` as `0001-<dash-case-name>.html`, incrementing the number each time.
+A **lesson** is a single, self-contained HTML file that teaches one tightly-scoped thing tied to the mission (with one exception — the framework lesson, below). It is the main artifact of teacher mode. For a **complex topic, lessons are the per-unit teaching artifact**: you build them one at a time, each carrying the current `active` unit of `SYLLABUS.md`. (Lessons also serve Phase 1 map-building and Phase 3 retrieval/sensory practice for any topic.) Save lessons to `./lessons/` as `0001-<dash-case-name>.html`, incrementing the number each time.
 
+- **The first lesson is always the framework lesson.** Before any narrow unit, teach the **Basics** — the single framework of which the rest of the topic is a variation (the `MAP.md` "framework" section, made see-able). This is `lessons/0001`, and **Unit 0** of the syllabus for a complex topic. It is the one deliberately **wide, shallow** lesson: its win is *orientation*, not mastery — the scaffold every later lesson hangs a bone on, the basic mental model the learner thinks *with* from then on. Make it maximally visual (the big-picture diagram they carry forward) and compress hard to the skeleton — resist teaching the details, they come later. Its check is the framework Feynman test: *state or draw the framework in your own words.* Passing it is the gate to the first real unit. (This is the explicit exception to "one tightly-scoped thing" — every *other* lesson stays narrow and deep.)
 - **Syllabus-driven and adaptive (the heart of teaching a complex topic).** Build the lesson for the active unit **just-in-time**, not in a batch up front — because each lesson must be pitched to what the *previous* unit's `checks/` actually revealed about the learner's model, plus the unit's objective and its sources. One unit usually takes one lesson; a large unit may take a few. Never pre-generate the whole course: a lesson written before its prerequisite unit was tested cannot adapt to the learner, and that adaptation is the whole point.
 - **Beautiful and durable.** Clean, readable typography and layout — think Tufte. The learner returns to these to review, so the set should look like one consistent course, not a pile of one-offs.
 - **Small, one win.** Short and quickly completable — working memory is tiny. Each lesson delivers a single tangible win, tied to the mission and pitched at the learner's zone of proximal development.

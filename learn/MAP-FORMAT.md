@@ -14,10 +14,10 @@ A map answers one question: **"How should I think about this?"** It has two side
 # Map: {Topic}
 
 ## The framework (the Basics)
-{2-5 sentences. The single organizing idea or structure of the field. State it so that the rest of the topic reads as variations on it. If you cannot compress the field to a paragraph yet, the map is not done — say so explicitly in Open edges.}
+{2-5 sentences. The single organizing idea or structure of the field. State it so that the rest of the topic reads as variations on it. If you cannot compress the field to a paragraph yet, the map is not done — say so explicitly in Open edges. This paragraph (with the Big picture below) is the **source for the framework lesson** — Unit 0 / `lessons/0001`, the first thing the learner is taught.}
 
 ## Big picture
-{A system block diagram or a short ASCII sketch: the main parts and how they connect / flow. The highest useful level of abstraction — no detail that does not change the shape.}
+{A system block diagram or a short ASCII sketch: the main parts and how they connect / flow. The highest useful level of abstraction — no detail that does not change the shape. This is the visual the framework lesson makes see-able and the learner carries forward as their scaffold.}
 
 ## Know-what — the concepts
 {The handful of concepts that carry the field, and how they relate. Not definitions (those live in GLOSSARY.md) — relationships. "X is a special case of Y." "A trades off against B." Aim for ~5-9; if there are more, the framework above is probably too weak.}

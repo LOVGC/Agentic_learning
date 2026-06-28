@@ -25,7 +25,8 @@ A unit is the curriculum-scale version of the learning loop: each one is a small
 
 | # | Unit | Objective (→ mission) | Felt-knowledge proof (the output test) | Key sources | Prereqs | Status |
 |---|------|----------------------|----------------------------------------|-------------|---------|--------|
-| 1 | {name} | {what the learner will be able to do/think, traced to the mission} | {the concrete thing they must PRODUCE to pass — a Feynman explanation, a tiny working artifact, an examiner quiz} | {RESOURCES.md entries} | — | active |
+| 0 | The framework (the Basics) | Install the basic mental model — the one framework everything else is a variation on | State or draw the whole framework / big picture in your own words | {RESOURCES.md entries} | — | active |
+| 1 | {name} | {what the learner will be able to do/think, traced to the mission} | {the concrete thing they must PRODUCE to pass — a Feynman explanation, a tiny working artifact, an examiner quiz} | {RESOURCES.md entries} | 0 | pending |
 | 2 | {name} | {…} | {…} | {…} | 1 | pending |
 | … | | | | | | |
 
@@ -37,6 +38,7 @@ A unit is the curriculum-scale version of the learning loop: each one is a small
 
 ## Rules
 
+- **The route always opens with Unit 0 — the framework.** Every syllabus begins with the framework lesson: the Basics, the one structure everything else is a variation on, taught wide-and-shallow to install the mental model the learner will think *with* (see "Lessons" in `SKILL.md`). It is `active` first; no other unit starts until its check — *state or draw the framework in your own words* — passes. Units 1..n are the variations that hang off it, each depending on it.
 - **Agree before you build.** Draft the syllabus, then *discuss it with the learner and reach agreement* before writing the file and teaching from it. The learner co-owns the route; an imposed curriculum is a mission you cannot see. Re-agree whenever the route changes materially.
 - **Minimal path, not full coverage.** The syllabus is the shortest ordered set of units that reaches the mission — not the field's table of contents. If a unit does not serve the mission, drop it. A bloated syllabus is the curriculum-scale version of a bloated map: a failed one.
 - **Every unit ends in an output test.** The "Felt-knowledge proof" column is required and must name something the learner *produces* (a Feynman explanation, a minimum-viable practice, an examiner quiz). "Read chapter 4" is not a proof. The unit's status becomes `passed` only when a `checks/` entry passes — never on lesson delivery alone.
