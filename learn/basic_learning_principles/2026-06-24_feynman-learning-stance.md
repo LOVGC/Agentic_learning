@@ -1,7 +1,5 @@
 # Feynman Technique, Mental Models, and the Feel of Learning
 
-Source: [raw/how_to_learn_new_things/Feynman, mental model, feel (ingested).md](<../../raw/how_to_learn_new_things/Feynman, mental model, feel (ingested).md>)
-
 Date ingested: 2026-06-24
 
 ## Summary

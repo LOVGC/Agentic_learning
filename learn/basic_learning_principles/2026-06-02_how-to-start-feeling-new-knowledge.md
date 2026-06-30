@@ -1,7 +1,5 @@
 # How To Start Feeling New Knowledge
 
-Source: [raw/how_to_start_feeling_new_knowledge (ingested).jpg](<../../raw/how_to_start_feeling_new_knowledge (ingested).jpg>)
-
 Related note filed 2026-06-08: user-provided LLM learning workflow referencing [How an MIT student compressed a semester of learning into 48 hours](https://sinapti.ca/post/en/how-an-mit-student-compressed-a-semester-of-learning-into-48-0zrzqxjb).
 
 Date ingested: 2026-06-02
